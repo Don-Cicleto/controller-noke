@@ -1,47 +1,39 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 buildscript {
+    ext {
+        buildToolsVersion = "28.0.2"
+        minSdkVersion = 16
+        compileSdkVersion = 28
+        targetSdkVersion = 27
+        supportLibVersion = "28.0.0"
+    }
     repositories {
+        google()
         jcenter()
     }
-
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
-    }
+        classpath 'com.android.tools.build:gradle:3.2.1'
 
-    configurations.all {
-        resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
-        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+        google()
+        jcenter()
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url "$rootDir/../node_modules/react-native/android"
+        }
     }
 }
 
 
-apply plugin: 'com.android.library'
-
-android {
-    compileSdkVersion 28
-    buildToolsVersion "26.0.3"
-
-    defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-    }
-    lintOptions {
-        abortOnError false
-    }
-}
-
-repositories {
-    jcenter()
-    maven { url "https://jitpack.io" }
-
-    maven {
-        url 'http://dl.bintray.com/dev-fingerlinks/maven'
-    }
-    mavenCentral()
-}
-
-dependencies {
-    compile 'com.facebook.react:react-native:+'
-    implementation 'com.google.code.gson:gson:2.8.2'
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.7'
+    distributionUrl = distributionUrl.replace("bin", "all")
 }
